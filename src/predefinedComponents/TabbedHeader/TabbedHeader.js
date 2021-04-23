@@ -255,3 +255,4 @@ TabbedHeader.defaultProps = {
   tabWrapperStyle: styles.tabsWrapper,
   onRef: null,
 };
+
