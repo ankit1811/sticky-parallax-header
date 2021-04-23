@@ -352,9 +352,6 @@ class StickyParallaxHeader extends Component {
     const shouldRenderTabs = tabs && tabs.length > 0;
     const shouldUseBgColor = contentContainerStyles && contentContainerStyles.backgroundColor;
 
-    const hasSingleTab = tabs?.length === 1 || false;
-    const hasSingleElement = hasSingleTab || (!tabs && children !== undefined);
-
     return (
       <View style={styles.container}>
         {header && this.renderHeader()}
@@ -363,7 +360,7 @@ class StickyParallaxHeader extends Component {
           overScrollMode="never"
           refreshControl={refreshControl}
           bouncesZoom
-          decelerationRate="fast"
+          //decelerationRate="fast"
           nestedScrollEnabled
           ref={(c) => {
             this.scroll = c;
@@ -413,7 +410,6 @@ class StickyParallaxHeader extends Component {
               : this.renderPlainBackground(scrollHeight)}
             {this.renderForeground(scrollHeight)}
           </View>
-          {shouldRenderTabs && this.renderTabs()}
           <ScrollableTabView
             contentContainerStyles={contentContainerStyles}
             initialPage={initialPage}
@@ -425,7 +421,6 @@ class StickyParallaxHeader extends Component {
             scrollHeight={scrollHeight}
             isHeaderFolded={isFolded}
             minScrollHeight={innerScrollHeight}
-            scrollEnabled={!hasSingleElement}
             keyboardShouldPersistTaps={keyboardShouldPersistTaps}>
             {!tabs && children}
             {tabs &&
