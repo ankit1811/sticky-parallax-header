@@ -199,40 +199,9 @@ class ScrollableTabView extends React.Component {
   };
 
   children = (children = this.props.children) => React.Children.map(children, (child) => child);
-
-  renderScrollableContent() {
-    const scenes = this.composeScenes();
-    const { initialPage, scrollEnabled } = this.props;
-    const { containerWidth, scrollXIOS } = this.state;
-    const { minScrollHeight, keyboardShouldPersistTaps } = this.props;
-
-    return (
-      <Animated.ScrollView
-        keyboardShouldPersistTaps={keyboardShouldPersistTaps}
-        horizontal
-        pagingEnabled
-        contentContainerStyle={{ minHeight: minScrollHeight }}
-        automaticallyAdjustContentInsets={false}
-        contentOffset={{ x: initialPage * containerWidth }}
-        ref={(scrollView) => {
-          this.scrollView = scrollView;
-        }}
-        onScroll={Animated.event([{ nativeEvent: { contentOffset: { x: scrollXIOS } } }], {
-          useNativeDriver: true,
-          listener: this.onScroll,
-        })}
-        onMomentumScrollEnd={this.onMomentumScrollBeginAndEnd}
-        scrollEventThrottle={16}
-        scrollsToTop={false}
-        showsHorizontalScrollIndicator={false}
-        scrollEnabled={scrollEnabled}
-        directionalLockEnabled
-        alwaysBounceVertical={false}
-        keyboardDismissMode="on-drag">
-        {scenes}
-      </Animated.ScrollView>
-    );
-  }
+     <View>
+       {scenes}
+     </View>
 
   render() {
     return (
