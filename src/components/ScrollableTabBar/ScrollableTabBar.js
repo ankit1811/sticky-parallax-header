@@ -124,6 +124,7 @@ class ScrollableTabBar extends React.PureComponent {
           },
         ]}>
         <ScrollView
+
           style={styles.nestedStyle}
           contentContainerStyle={[styles.contentContainer, tabsContainerStyle]}
           ref={(r) => (this.scrollView = r)}
