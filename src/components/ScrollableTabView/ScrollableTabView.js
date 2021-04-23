@@ -1,7 +1,7 @@
 /* eslint-disable react/destructuring-assignment  */
 import React from 'react';
 import { Animated, StyleSheet, View, ViewPropTypes } from 'react-native';
-import { bool, func, node, number, oneOf } from 'prop-types';
+import { func, node, number, oneOf } from 'prop-types';
 import SceneComponent from './SceneComponent';
 import constants from '../../constants/constants';
 import { getSafelyScrollNode } from '../../utils';
@@ -199,9 +199,40 @@ class ScrollableTabView extends React.Component {
   };
 
   children = (children = this.props.children) => React.Children.map(children, (child) => child);
-     <View>
-       {scenes}
-     </View>
+
+  renderScrollableContent() {
+    const scenes = this.composeScenes();
+    const { initialPage } = this.props;
+    const { containerWidth, scrollXIOS } = this.state;
+    const { minScrollHeight, keyboardShouldPersistTaps } = this.props;
+
+    return (
+      <Animated.ScrollView
+        keyboardShouldPersistTaps={keyboardShouldPersistTaps}
+        horizontal
+        pagingEnabled
+        contentContainerStyle={{ minHeight: minScrollHeight }}
+        automaticallyAdjustContentInsets={false}
+        contentOffset={{ x: initialPage * containerWidth }}
+        ref={(scrollView) => {
+          this.scrollView = scrollView;
+        }}
+        onScroll={Animated.event([{ nativeEvent: { contentOffset: { x: scrollXIOS } } }], {
+          useNativeDriver: true,
+          listener: this.onScroll,
+        })}
+        onMomentumScrollEnd={this.onMomentumScrollBeginAndEnd}
+        scrollEventThrottle={16}
+        scrollsToTop={false}
+        showsHorizontalScrollIndicator={false}
+        scrollEnabled
+        directionalLockEnabled
+        alwaysBounceVertical={false}
+        keyboardDismissMode="on-drag">
+        {scenes}
+      </Animated.ScrollView>
+    );
+  }
 
   render() {
     return (
@@ -221,7 +252,6 @@ ScrollableTabView.propTypes = {
   swipedPage: func,
   minScrollHeight: number,
   keyboardShouldPersistTaps: oneOf(['never', 'always', 'handled', false, true, undefined]),
-  scrollEnabled: bool.isRequired,
 };
 
 ScrollableTabView.defaultProps = {
@@ -233,3 +263,4 @@ ScrollableTabView.defaultProps = {
 };
 
 export default ScrollableTabView;
+
